@@ -96,6 +96,13 @@ brew install emscripten
 ```
 *While the official `emsdk` repository is heavily utilised in enterprise CI/CD pipelines, the `Homebrew`formula is exceptionally convenient for local `macOS` development and perfectly serves the `WebGPU` template architecture previously discussed.*
 
+### 2. Build
+
+```zsh
+npm run build:wasm
+npm run dev
+```
+
 ---
 ## Definitions
 
