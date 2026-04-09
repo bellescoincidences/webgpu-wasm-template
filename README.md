@@ -12,6 +12,7 @@
   - [Troubleshooting](#troubleshooting)
   - [Definitions](#definitions)
 
+Link to website: https://bellescoincidences.github.io/webgpu-wasm-template/
 
 ---
 
@@ -85,8 +86,6 @@ emcc -v
 *A successful response will output the Emscripten version and the underlying Clang compiler details.*
 
 If you get an error when running `emcc -v` try the following steps:
-
-
 
 **To install via Homebrew:**
 If the compiler is not found, install it using the following command.
@@ -230,6 +229,7 @@ npm run dev
 
     Please edit the file if any of those are incorrect.
     ```
+
 
 ---
 
