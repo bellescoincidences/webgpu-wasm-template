@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebGPU & WASM Template</title>
+    <style>
+        body { margin: 0; background-color: #1a1a1a; color: #ffffff; font-family: sans-serif; overflow: hidden; }
+        canvas { width: 100vw; height: 100vh; display: block; }
+        #status-overlay { position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div id="status-overlay">Initialising...</div>
+    <canvas id="webgpu-canvas"></canvas>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
