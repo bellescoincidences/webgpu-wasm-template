@@ -34,7 +34,8 @@ webgpu-wasm-template/
 * To test this codebase, ensure `Node.js` and the `Emscripten SDK` are installed locally. 
 * Running `npm install` followed by `npm run dev` (after executing the `build:wasm` script) will compile the application and launch the development server.
 * Please also ensure that `Homebrew` is installed, and that you have downloaded `>=Python 3.10` into your brew inventory
-* Ensure `Binaryen` is installed. Although `Homebrew` usually fetches this automatically, it might be missing or unlinked. This package provides the `wasm-opt` binary explicitly requested in the error trace: `brew install binaryen`
+* `binaryen` Ensure `Binaryen` is installed. Although `Homebrew` usually fetches this automatically, it might be missing or unlinked. This package provides the `wasm-opt` binary explicitly requested in the error trace: `brew install binaryen`
+* `llvm` Run `brew install llvm` and add to your `PATH`: `echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> /Users/victoriamckinney/.zshrc`
 
 
 ### MacOS installation
@@ -131,7 +132,7 @@ brew install emscripten
 ---
 ## Troubleshooting
 
-* **Error when running `npm run build:wasm`**
+* **`emcc` error when running`npm run build:wasm`**
     >
 
     ```zsh
@@ -139,13 +140,10 @@ brew install emscripten
 
     > webgpu-wasm-template@1.0.0 build:wasm
     > emcc wasm/compute.cpp -o public/compute.js -s EXPORTED_RUNTIME_METHODS='["ccall"]' -s MODULARIZE=1 -s EXPORT_ES6=1
-
     emcc: warning: config file not found: /opt/homebrew/Cellar/emscripten/5.0.5/libexec/.emscripten.  You can create one by hand or run `emcc --generate-config`
     emcc: error: BINARYEN_ROOT not set in config (/opt/homebrew/Cellar/emscripten/5.0.5/libexec/.emscripten), and `wasm-opt` not found in PATH
     webgpu-wasm-template % emcc -v
-
     emcc: warning: config file not found: /opt/homebrew/Cellar/emscripten/5.0.5/libexec/.emscripten.  You can create one by hand or run `emcc --generate-config`
-
     emcc: error: BINARYEN_ROOT not set in config (/opt/homebrew/Cellar/emscripten/5.0.5/libexec/.emscripten), and `wasm-opt` not found in PATH
     ```
 
@@ -156,7 +154,7 @@ brew install emscripten
     ```
     This instructs `Emscripten` to build the missing `.emscripten` file and auto-detect local `Homebrew` paths.
 >
-* **error with command `npm run build:wasm`**
+* **`llvm` error when running `npm run build:wasm`**
   >
     ```zsh
     > webgpu-wasm-template % npm run build:wasm 
