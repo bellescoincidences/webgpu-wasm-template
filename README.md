@@ -36,6 +36,7 @@ webgpu-wasm-template/
 * Please also ensure that `Homebrew` is installed, and that you have downloaded `>=Python 3.10` into your brew inventory
 * `binaryen` Ensure `Binaryen` is installed. Although `Homebrew` usually fetches this automatically, it might be missing or unlinked. This package provides the `wasm-opt` binary explicitly requested in the error trace: `brew install binaryen`
 * `llvm` Run `brew install llvm` and add to your `PATH`: `echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> /Users/victoriamckinney/.zshrc`
+  - Homebrew recently separated the LLVM linker into an independent package. It must be installed alongside the main compiler: `brew install lld`. This package provides the `wasm-ld` binary, which is explicitly required to stitch the compiled object files into a finished `WebAssembly` module.
 
 
 ### MacOS installation
