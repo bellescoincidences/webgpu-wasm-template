@@ -1,4 +1,4 @@
-# webgpu-wasm-template
+# [webgpu-wasm-template](https://github.com/bellescoincidences/webgpu-wasm-template)
 
 <!--date_added:tues-07-apr-2026-->
 <!--date_updated:thurs-09-apr-2026-->
@@ -7,10 +7,10 @@
 
 
   - [Repository structure](#repository-structure)
-  - [Definitions](#definitions)
-  - [Requirements](#requirements)
+  - [Requirements and setup](#requirements)
     - [MacOS Setup](#macos-installation)
   - [Troubleshooting](#troubleshooting)
+  - [Definitions](#definitions)
 
 
 ---
@@ -28,40 +28,6 @@ webgpu-wasm-template/
 └── wasm/
     └── compute.cpp # A simple C++ file to demonstrate mathematical operations offloaded to WebAssembly. EMSCRIPTEN_KEEPALIVE prevents the compiler from discarding this function during optimisation
 ```
----
-## Definitions
-
-* [`Node.js`](https://nodejs.org/en) is a free, open-source, cross-platform `JavaScript` **runtime environment** that lets developers: 
-  - create servers
-  - web apps
-  - command line tools
-  - scripts
-
-> **[source code](https://github.com/vitejs/vite)**
-
-* [`Vite`](https://vite.dev/guide/) is a build tool that aims to provide a faster and leaner development experience for modern web projects. It consists of two major parts:
-  - A dev server that provides rich feature enhancements over native ES modules, for example extremely fast **Hot Module Replacement (HMR)**.
-  - A build command that bundles your code with **Rolldown**, pre-configured to output highly optimised static assets for production.
-
-> **[source code](https://github.com/vitejs/vite)**
-
-* [`Emscripten`] is a complete **Open Source compiler toolchain** to `WebAssembly`. Using Emscripten you can: 
-  - Compile `C` and `C++` code (or any other language that uses `LLVM` into `WebAssembly`), and run it on the `Web`, `Node. js`, or other `Wasm` runtimes.
-
-> **[source code](https://github.com/emscripten-core/emscripten)**
-
-* [`Web Assembly (WASM)`](https://webassembly.org/)
-  - `WebAssembly` (`WASM`) is a highly-efficient binary format that allows code written in languages such as C++ or Rust to run directly within a web browser at near-native speeds. 
-  - It operates alongside standard web technologies to process demanding tasks, offering raw computational power for complex applications without relying solely on `JavaScript`.
-
-> **[source code](https://github.com/webassembly)**
-
-* [`WebGPU`](https://webgpu.org/)
-  - `WebGPU` is a modern technology that allows web browsers to communicate directly with a device's graphics card to perform complex calculations and render high-quality images. 
-  - It provides a highly efficient, low-level connection to the hardware, unlocking native-like graphical performance for applications directly on the internet.
-
-> **[source code](https://github.com/gpuweb/gpuweb)**
-
 ---
 ## Requirements
 
@@ -129,7 +95,40 @@ brew install emscripten
 *While the official `emsdk` repository is heavily utilised in enterprise CI/CD pipelines, the `Homebrew`formula is exceptionally convenient for local `macOS` development and perfectly serves the `WebGPU` template architecture previously discussed.*
 
 ---
+## Definitions
 
+* [`Node.js`](https://nodejs.org/en) is a free, open-source, cross-platform `JavaScript` **runtime environment** that lets developers: 
+  - create servers
+  - web apps
+  - command line tools
+  - scripts
+
+> **[source code](https://github.com/vitejs/vite)**
+
+* [`Vite`](https://vite.dev/guide/) is a build tool that aims to provide a faster and leaner development experience for modern web projects. It consists of two major parts:
+  - A dev server that provides rich feature enhancements over native ES modules, for example extremely fast **Hot Module Replacement (HMR)**.
+  - A build command that bundles your code with **Rolldown**, pre-configured to output highly optimised static assets for production.
+
+> **[source code](https://github.com/vitejs/vite)**
+
+* [`Emscripten`] is a complete **Open Source compiler toolchain** to `WebAssembly`. Using Emscripten you can: 
+  - Compile `C` and `C++` code (or any other language that uses `LLVM` into `WebAssembly`), and run it on the `Web`, `Node. js`, or other `Wasm` runtimes.
+
+> **[source code](https://github.com/emscripten-core/emscripten)**
+
+* [`Web Assembly (WASM)`](https://webassembly.org/)
+  - `WebAssembly` (`WASM`) is a highly-efficient binary format that allows code written in languages such as C++ or Rust to run directly within a web browser at near-native speeds. 
+  - It operates alongside standard web technologies to process demanding tasks, offering raw computational power for complex applications without relying solely on `JavaScript`.
+
+> **[source code](https://github.com/webassembly)**
+
+* [`WebGPU`](https://webgpu.org/)
+  - `WebGPU` is a modern technology that allows web browsers to communicate directly with a device's graphics card to perform complex calculations and render high-quality images. 
+  - It provides a highly efficient, low-level connection to the hardware, unlocking native-like graphical performance for applications directly on the internet.
+
+> **[source code](https://github.com/gpuweb/gpuweb)**
+
+---
 ## Troubleshooting
 
 * **Error when running `npm run build:wasm`**
@@ -156,7 +155,75 @@ brew install emscripten
     emcc --generate-config
     ```
     This instructs `Emscripten` to build the missing `.emscripten` file and auto-detect local `Homebrew` paths.
+>
+* **error with command `npm run build:wasm`**
+  >
+    ```zsh
+    > webgpu-wasm-template % npm run build:wasm 
+    > webgpu-wasm-template@1.0.0 build:wasm
+    > emcc wasm/compute.cpp -o public/compute.js -s EXPORTED_RUNTIME_METHODS='["ccall"]' -s MODULARIZE=1 -s EXPORT_ES6=1
 
+    emcc: warning: LLVM version for clang executable "/usr/bin/clang" appears incorrect (seeing "21.0", expected "23") [-Wversion-check]
+    shared:CRITICAL: LLVM has not been built with the WebAssembly backend, clang reports:
+    ===========================================================================
+
+        aarch64    - AArch64 (little endian)
+        aarch64_32 - AArch64 (little endian ILP32)
+        aarch64_be - AArch64 (big endian)
+        arm        - ARM
+        arm64      - ARM64 (little endian)
+        arm64_32   - ARM64 (little endian ILP32)
+        armeb      - ARM (big endian)
+        thumb      - Thumb
+        thumbeb    - Thumb (big endian)
+        x86        - 32-bit X86: Pentium-Pro and above
+        x86-64     - 64-bit X86: EM64T and AMD64
+
+    ===========================================================================
+    shared:INFO: (Emscripten: Running sanity checks)
+    ```
+    >
+    **Fix**
+    >
+    * The `Emscripten` configuration auto-generator fell into a trap. `Homebrew` installs its `LLVM` package as 'keg-only', meaning it is deliberately hidden from the main system path to prevent conflicts with Apple's native `Xcode` tools. 
+    >
+    * Because it was hidden, the configuration script grabbed the **first compiler available—Apple's default system** `Clang` (ie.`/usr/bin/clang`).
+    >
+    * As this error points out, Apple's `Clang` does not support `WebAssembly` compilation. To resolve this, the `Homebrew LLVM` must be **temporarily exposed** to the terminal path, the **bad configuration moved**, and a **new one generated**.
+    >
+    Run these commands to get going again.   Forcing the WebAssembly-compatible LLVM into the path ensures Emscripten maps the correct compiler dependencies during the setup phase:
+    >
+
+    ```zsh
+      # 1. Prioritise the Homebrew LLVM in the current terminal session
+      export PATH="$(brew --prefix llvm)/bin:$PATH"
+
+      # 2. Rename the incorrect configuration file instead of deleting it
+      mv "$(brew --prefix emscripten)/libexec/.emscripten" "$(brew --prefix emscripten)/libexec/.emscripten.backup"
+
+      # 3. Generate a fresh, correct configuration
+      emcc --generate-config
+
+      # 4. Execute the compilation script once more
+      npm run build:wasm
+    ```
+    
+    Output should look like this:
+    >
+    ```zsh
+    MacBook Air webgpu-wasm-template %       emcc --generate-config
+    An Emscripten settings file has been generated at:
+
+      /opt/homebrew/Cellar/emscripten/5.0.5/libexec/.emscripten
+
+    It contains our best guesses for the important paths, which are:
+
+      LLVM_ROOT       = /usr/bin
+      BINARYEN_ROOT   = /opt/homebrew
+      NODE_JS         = /opt/homebrew/bin/node
+
+    Please edit the file if any of those are incorrect.
+    ```
 
 ---
 
