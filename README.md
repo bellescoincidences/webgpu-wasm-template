@@ -13,6 +13,7 @@
   - [Definitions](#definitions)
 
 Link to website: https://bellescoincidences.github.io/webgpu-wasm-template/
+Repository: https://github.com/bellescoincidences/webgpu-wasm-template
 
 ---
 
