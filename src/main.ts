@@ -48,7 +48,8 @@ async function initArchitecture() {
     const renderPassDescriptor: GPURenderPassDescriptor = {
         colorAttachments: [{
             view: textureView,
-            clearValue: { r: 0.15, g: 0.25, b: 0.35, a: 1.0 }, 
+            // clearValue: { r: 0.15, g: 0.25, b: 0.35, a: 1.0 }, // blue
+            clearValue: { r: 0.0, g: 0.00, b: 0.35, a: 1.0 }, // black
             loadOp: 'clear',
             storeOp: 'store',
         }],
