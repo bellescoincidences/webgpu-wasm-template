@@ -17,6 +17,55 @@ async function initArchitecture() {
     statusElement.innerText = `WASM Output (10.0 * 2.5) = ${multiplierResult}\nInitialising WebGPU...`;
 
     // --- Phase 2: WebGPU Initialisation ---
+    //if (!navigator.gpu) {
+      //  statusElement.innerText += '\nError: WebGPU is not supported in this environment.';
+        //return;
+    //}
+
+    //const adapter = await navigator.gpu.requestAdapter();
+    //if (!adapter) {
+    //    statusElement.innerText += '\nError: Failed to find a compatible WebGPU adapter.';
+     //   return;
+   // }
+
+    //const device = await adapter.requestDevice();
+    //const canvas = document.getElementById('webgpu-canvas') as HTMLCanvasElement;
+    //const context = canvas.getContext('webgpu');
+    
+    //if (!context) return;
+
+    //const presentationFormat = navigator.gpu.getPreferredCanvasFormat();
+    //context.configure({
+    //    device,
+    //    format: presentationFormat,
+     //   alphaMode: 'premultiplied',
+    //});
+
+    // # Reasoning: A simple render pass clearing to a specific colour confirms the GPU pipeline is functioning.
+    //const commandEncoder = device.createCommandEncoder();
+    //const textureView = context.getCurrentTexture().createView();
+
+    //const renderPassDescriptor: GPURenderPassDescriptor = {
+      //  colorAttachments: [{
+       //     view: textureView,
+            // clearValue: { r: 0.15, g: 0.25, b: 0.35, a: 1.0 }, // blue
+        //    clearValue: { r: 0.0, g: 0.00, b: 0.00, a: 0.0 }, // black
+         //   loadOp: 'clear',
+         //   storeOp: 'store',
+       // }],
+    //};
+
+    //const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+    //passEncoder.end();
+
+    //device.queue.submit([commandEncoder.finish()]);
+    
+    //statusElement.innerText += '\nSuccess: WebGPU pipeline active and rendering.';
+//}
+
+//initArchitecture();
+
+// --- Phase 2: WebGPU Initialisation ---
     if (!navigator.gpu) {
         statusElement.innerText += '\nError: WebGPU is not supported in this environment.';
         return;
@@ -41,26 +90,38 @@ async function initArchitecture() {
         alphaMode: 'premultiplied',
     });
 
-    // # Reasoning: A simple render pass clearing to a specific colour confirms the GPU pipeline is functioning.
-    const commandEncoder = device.createCommandEncoder();
-    const textureView = context.getCurrentTexture().createView();
-
-    const renderPassDescriptor: GPURenderPassDescriptor = {
-        colorAttachments: [{
-            view: textureView,
-            // clearValue: { r: 0.15, g: 0.25, b: 0.35, a: 1.0 }, // blue
-            clearValue: { r: 0.0, g: 0.00, b: 0.00, a: 0.0 }, // black
-            loadOp: 'clear',
-            storeOp: 'store',
-        }],
-    };
-
-    const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
-    passEncoder.end();
-
-    device.queue.submit([commandEncoder.finish()]);
-    
     statusElement.innerText += '\nSuccess: WebGPU pipeline active and rendering.';
+
+    // --- Phase 3: Animation Loop ---
+    // # Reasoning: Each frame calculates a new colour based on elapsed time.
+    function renderFrame(timestamp: number) {
+        // Convert milliseconds → seconds, then use sine waves for smooth oscillation.
+        // Math.sin() returns -1.0 to 1.0; we shift it to 0.0–1.0 with (x + 1) / 2.
+        const t = timestamp / 1000;
+        const r = (Math.sin(t * 0.7) + 1) / 2;
+        const g = (Math.sin(t * 0.5 + 2) + 1) / 2;
+        const b = (Math.sin(t * 0.3 + 4) + 1) / 2;
+
+        const commandEncoder = device.createCommandEncoder();
+        const textureView = context!.getCurrentTexture().createView();
+
+        const renderPassDescriptor: GPURenderPassDescriptor = {
+            colorAttachments: [{
+                view: textureView,
+                clearValue: { r, g, b, a: 1.0 },
+                loadOp: 'clear',
+                storeOp: 'store',
+            }],
+        };
+
+        const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+        passEncoder.end();
+        device.queue.submit([commandEncoder.finish()]);
+
+        requestAnimationFrame(renderFrame);
+    }
+
+    requestAnimationFrame(renderFrame);
 }
 
 initArchitecture();
